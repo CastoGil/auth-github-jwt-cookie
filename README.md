@@ -32,3 +32,20 @@ Plantilla de autenticación para Node.js/Express que implementa inicio de sesió
 ## 🔐 Notas
 - Configura correctamente las variables de entorno para GitHub OAuth.
 - Asegúrate de usar cookies `httpOnly` y `secure` en producción.
+
+
+### 🧠 ¿Cómo funciona?
+
+1. El usuario hace clic en `Iniciar sesión con GitHub` (`/auth/github`).
+2. Passport redirige a GitHub; al volver, GitHub llama a `/auth/github/callback`.
+3. En el callback se genera un JWT (ver `src/utils/jwt.js`) y se guarda en una cookie `httpOnly`.
+4. La ruta `/api/users/current` recupera al usuario actual a partir del JWT.
+5. Middleware de autorización protege las rutas privadas.
+
+### 📂 Estructura del código
+
+- `src/config/passport.js`: Configura la estrategia de GitHub para Passport.
+- `src/routes/auth.js`: Define rutas de login y callback.
+- `src/routes/users.js`: Contiene la ruta `/current` y otras relacionadas.
+- `src/utils/jwt.js`: Funciones para firmar y verificar JWT.
+- `src/views/`: Plantillas Handlebars de login y dashboard.
